@@ -2,15 +2,7 @@
 
 import { useState } from "react";
 import { format } from "date-fns";
-import {
-  CheckCircle,
-  Circle,
-  Trash,
-  Edit,
-  Calendar,
-} from "lucide-react";
-
-
+import { CheckCircle, Circle, Trash, Edit, Calendar } from "lucide-react";
 
 export default function TaskItem({ task, onDelete, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false); //tracks whether the task is in "edit mode"
@@ -18,46 +10,47 @@ export default function TaskItem({ task, onDelete, onUpdate }) {
 
   const handleComplete = () => {
     const updatedStatus = task.status === "completed" ? "pending" : "completed";
-    
-    onUpdate(task._id, { status: updatedStatus });
-  
+
+    onUpdate(task._id, {
+      ...task,
+      status: updatedStatus,
+    });
+
     if (updatedStatus === "completed") {
       alert("Awesome work! You've successfully completed the task!");
     } else {
       alert("Task is now marked as pending again. Keep going!");
     }
   };
-  
-  
 
   const handleDelete = async () => {
-    const confirmed = window.confirm("Are you sure you want to delete this task?");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this task?"
+    );
     if (!confirmed) return;
-  
+
     try {
       await onDelete(task._id);
     } catch (error) {
       console.error("Error deleting task:", error);
     }
   };
-  
 
   const handleEdit = () => {
     setIsEditing(true);
     setEditedTask(task);
-
   };
 
   const handleSave = async () => {
     // Check if anything actually changed
     const isUnchanged = JSON.stringify(task) === JSON.stringify(editedTask);
-  
+
     if (isUnchanged) {
       alert("No changes detected.");
       setIsEditing(false);
       return;
     }
-  
+
     try {
       await onUpdate(task._id, editedTask);
       setIsEditing(false);
@@ -67,7 +60,6 @@ export default function TaskItem({ task, onDelete, onUpdate }) {
       setEditedTask(task);
     }
   };
-  
 
   const handleCancel = () => {
     setEditedTask(task);
@@ -109,17 +101,16 @@ export default function TaskItem({ task, onDelete, onUpdate }) {
     >
       <div className="flex items-start justify-between">
         <div className="flex items-start space-x-3 flex-grow">
-        <button
-          onClick={handleComplete}
-          className="mt-1 cursor-pointer hover:opacity-75"
-        >
-          {task.status === "completed" ? (
-            <CheckCircle className="h-6 w-6 text-green-500" />
-          ) : (
-            <Circle className="h-6 w-6 text-gray-400" />
-          )}
-        </button>
-
+          <button
+            onClick={handleComplete}
+            className="mt-1 cursor-pointer hover:opacity-75"
+          >
+            {task.status === "completed" ? (
+              <CheckCircle className="h-6 w-6 text-green-500" />
+            ) : (
+              <Circle className="h-6 w-6 text-gray-400" />
+            )}
+          </button>
 
           <div className="flex-grow">
             {isEditing ? (
@@ -225,5 +216,3 @@ export default function TaskItem({ task, onDelete, onUpdate }) {
     </div>
   );
 }
-
-

@@ -1,7 +1,6 @@
 "use client";
 import TaskItem from "./task-item";
 
-
 export default function TaskList({
   tasks = [],
   priorityFilter = "all",
@@ -11,6 +10,14 @@ export default function TaskList({
   const filtered = tasks.filter((task) =>
     priorityFilter === "all" ? true : task.priority === priorityFilter
   );
+
+  const handleTaskUpdate = async (taskId, updatedData) => {
+    await onTaskUpdate(taskId, updatedData);
+  };
+
+  const handleTaskDelete = async (taskId) => {
+    await onTaskDelete(taskId);
+  };
 
   if (tasks.length === 0) {
     return (
@@ -26,11 +33,10 @@ export default function TaskList({
         <TaskItem
           key={task._id}
           task={task}
-          onDelete={onTaskDelete}
-          onUpdate={onTaskUpdate}
+          onDelete={handleTaskDelete}
+          onUpdate={handleTaskUpdate}
         />
       ))}
     </div>
   );
 }
-

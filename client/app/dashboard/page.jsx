@@ -56,10 +56,12 @@ export default function DashboardPage() {
 
   const updateStats = (tasks) => {
     const totalTasks = tasks.length;
-    const completedTasks = tasks.filter((task) => task.completed).length;
+    const completedTasks = tasks.filter(
+      (task) => task.status === "completed"
+    ).length;
     const tasksDueSoon = tasks.filter(
       (task) =>
-        !task.completed &&
+        task.status !== "completed" &&
         new Date(task.dueDate) <= new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     ).length;
 
@@ -68,6 +70,11 @@ export default function DashboardPage() {
       completedTasks,
       tasksDueSoon,
     });
+  };
+
+  // Add task update handler
+  const handleTaskUpdate = async () => {
+    await fetchTasks(); // Refresh tasks and stats
   };
 
   if (loading) {
@@ -124,7 +131,10 @@ export default function DashboardPage() {
             Your Courses
           </h3>
           {enrolledCourses.length > 0 ? (
-            <CourseList courses={enrolledCourses} />
+            <CourseList
+              courses={enrolledCourses}
+              onTaskUpdate={handleTaskUpdate}
+            />
           ) : (
             <p className="text-gray-500">
               You haven't enrolled in any courses yet.
