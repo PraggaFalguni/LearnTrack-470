@@ -27,7 +27,7 @@ export default function DashboardPage() {
   useEffect(() => {
     if (user) {
       fetchTasks();
-      fetchCourses();
+      fetchEnrolledCourses();
     }
   }, [user]);
 
@@ -43,14 +43,18 @@ export default function DashboardPage() {
     }
   };
 
-  const fetchCourses = async () => {
+  const fetchEnrolledCourses = async () => {
     try {
       const response = await coursesAPI.getCourses();
       if (response.data.status === "success") {
-        setEnrolledCourses(response.data.data.courses);
+        // Filter enrolled courses
+        const enrolled = response.data.data.courses.filter((course) =>
+          course.students?.includes(user.id)
+        );
+        setEnrolledCourses(enrolled);
       }
     } catch (error) {
-      console.error("Error fetching courses:", error);
+      console.error("Error fetching enrolled courses:", error);
     }
   };
 
@@ -128,7 +132,7 @@ export default function DashboardPage() {
         {/* Enrolled Courses */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="text-lg font-medium text-gray-900 mb-4">
-            Your Courses
+            Your Enrolled Courses
           </h3>
           {enrolledCourses.length > 0 ? (
             <CourseList
@@ -137,7 +141,10 @@ export default function DashboardPage() {
             />
           ) : (
             <p className="text-gray-500">
-              You haven't enrolled in any courses yet.
+              You haven't enrolled in any courses yet.{" "}
+              <a href="/courses" className="text-purple-600 hover:underline">
+                Browse available courses
+              </a>
             </p>
           )}
         </div>
