@@ -37,15 +37,11 @@ exports.register = async (req, res) => {
       });
     }
 
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create user
+    // Create user (password will be hashed by the model's pre-save hook)
     const user = await User.create({
       name,
       email,
-      password: hashedPassword,
+      password,
     });
 
     // Generate token
@@ -113,7 +109,7 @@ exports.login = async (req, res) => {
 
     // Verify password
     console.log("Verifying password...");
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await user.comparePassword(password);
     console.log("Password valid:", isPasswordValid);
 
     if (!isPasswordValid) {

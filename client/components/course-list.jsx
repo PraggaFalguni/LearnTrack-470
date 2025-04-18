@@ -35,8 +35,8 @@ export default function CourseList({ courses, onTaskUpdate }) {
             !Array.isArray(course.students) ||
             !course.students.includes(user?.id)) && (
             <button
-              onClick={() => handleEnroll(course._id)}
-              className="absolute bottom-4 right-4 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+              disabled
+              className="absolute bottom-4 right-4 bg-gray-400 text-white px-4 py-2 rounded-lg cursor-not-allowed"
             >
               Enroll Now
             </button>
