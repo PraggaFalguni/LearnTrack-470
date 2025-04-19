@@ -54,31 +54,8 @@ export function AuthProvider({ children }) {
       const response = await authAPI.login({ email, password });
       console.log("Full login response:", response);
 
-      // Check if we have a valid response with token and user data
-      if (response?.data?.token && response?.data?.user) {
+      if (response.data.success) {
         const { token, user } = response.data;
-
-        // Store token and user data
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-        authAPI.setToken(token);
-
-        // Update state
-        setUser(user);
-        setIsAuthenticated(true);
-
-        return {
-          success: true,
-          user,
-          message: "Login successful",
-        };
-      } else if (
-        response?.data?.status === "success" &&
-        response?.data?.data?.token &&
-        response?.data?.data?.user
-      ) {
-        // Alternative response structure
-        const { token, user } = response.data.data;
 
         // Store token and user data
         localStorage.setItem("token", token);
@@ -98,7 +75,7 @@ export function AuthProvider({ children }) {
 
       return {
         success: false,
-        message: response?.data?.message || "Invalid login response",
+        message: response.data.message || "Invalid login response",
       };
     } catch (error) {
       console.error("Login error:", error);
@@ -116,8 +93,8 @@ export function AuthProvider({ children }) {
     try {
       const response = await authAPI.register({ name, email, password });
 
-      if (response.data.status === "success") {
-        const { token, user } = response.data.data;
+      if (response.data.success) {
+        const { token, user } = response.data;
 
         // Store token and user data
         localStorage.setItem("token", token);

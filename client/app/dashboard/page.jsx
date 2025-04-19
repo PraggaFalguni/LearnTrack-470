@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { tasksAPI, coursesAPI } from "@/utils/api";
 import CourseList from "@/components/course-list";
+import Link from "next/link";
 
 export default function DashboardPage() {
   const [tasks, setTasks] = useState([]);
@@ -27,7 +28,7 @@ export default function DashboardPage() {
   useEffect(() => {
     if (user) {
       fetchTasks();
-      fetchCourses();
+      fetchEnrolledCourses();
     }
   }, [user]);
 
@@ -43,23 +44,29 @@ export default function DashboardPage() {
     }
   };
 
-  const fetchCourses = async () => {
+  const fetchEnrolledCourses = async () => {
     try {
       const response = await coursesAPI.getCourses();
       if (response.data.status === "success") {
-        setEnrolledCourses(response.data.data.courses);
+        // Filter enrolled courses
+        const enrolled = response.data.data.courses.filter((course) =>
+          course.students?.includes(user.id)
+        );
+        setEnrolledCourses(enrolled);
       }
     } catch (error) {
-      console.error("Error fetching courses:", error);
+      console.error("Error fetching enrolled courses:", error);
     }
   };
 
   const updateStats = (tasks) => {
     const totalTasks = tasks.length;
-    const completedTasks = tasks.filter((task) => task.completed).length;
+    const completedTasks = tasks.filter(
+      (task) => task.status === "completed"
+    ).length;
     const tasksDueSoon = tasks.filter(
       (task) =>
-        !task.completed &&
+        task.status !== "completed" &&
         new Date(task.dueDate) <= new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     ).length;
 
@@ -68,6 +75,11 @@ export default function DashboardPage() {
       completedTasks,
       tasksDueSoon,
     });
+  };
+
+  // Add task update handler
+  const handleTaskUpdate = async () => {
+    await fetchTasks(); // Refresh tasks and stats
   };
 
   if (loading) {
@@ -121,13 +133,19 @@ export default function DashboardPage() {
         {/* Enrolled Courses */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="text-lg font-medium text-gray-900 mb-4">
-            Your Courses
+            Your Enrolled Courses
           </h3>
           {enrolledCourses.length > 0 ? (
-            <CourseList courses={enrolledCourses} />
+            <CourseList
+              courses={enrolledCourses}
+              onTaskUpdate={handleTaskUpdate}
+            />
           ) : (
             <p className="text-gray-500">
-              You haven't enrolled in any courses yet.
+              You haven't enrolled in any courses yet.{" "}
+              <Link href="/courses" className="text-purple-600 hover:underline">
+                Browse available courses
+              </Link>
             </p>
           )}
         </div>

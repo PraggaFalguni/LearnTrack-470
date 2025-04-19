@@ -96,7 +96,7 @@ export const authAPI = {
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       localStorage.setItem("token", token);
     } else {
-       api.defaults.headers.common["Authorization"];
+      delete api.defaults.headers.common["Authorization"];
       localStorage.removeItem("token");
     }
   },
@@ -108,14 +108,12 @@ export const tasksAPI = {
   getTasks: () => api.get("/tasks"),
   getPendingTasks: () => api.get("/tasks/status/pending"),
   getCompletedTasks: () => api.get("/tasks/status/completed"),
-  getDueSoonTasks: () => api.get("/tasks/due-soon"), 
+  getDueSoonTasks: () => api.get("/tasks/due-soon"),
   getTask: (id) => api.get(`/tasks/${id}`),
   createTask: (data) => api.post("/tasks", data),
   updateTask: (id, data) => api.patch(`/tasks/${id}`, data),
   deleteTask: (id) => api.delete(`/tasks/${id}`),
 };
-
-
 
 //Courses API
 export const coursesAPI = {
