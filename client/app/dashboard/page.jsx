@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { tasksAPI, coursesAPI } from "@/utils/api";
 import CourseList from "@/components/course-list";
+import Link from "next/link";
 
 export default function DashboardPage() {
   const [tasks, setTasks] = useState([]);
@@ -142,9 +143,9 @@ export default function DashboardPage() {
           ) : (
             <p className="text-gray-500">
               You haven't enrolled in any courses yet.{" "}
-              <a href="/courses" className="text-purple-600 hover:underline">
+              <Link href="/courses" className="text-purple-600 hover:underline">
                 Browse available courses
-              </a>
+              </Link>
             </p>
           )}
         </div>
