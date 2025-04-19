@@ -11,9 +11,8 @@ const courseSchema = new mongoose.Schema({
     required: [true, "Please provide a description"],
   },
   instructor: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+    type: String,
+    required: false,
   },
   price: {
     type: Number,
