@@ -96,7 +96,7 @@ export default function TaskItem({ task, onDelete, onUpdate }) {
           ? "border-l-yellow-500"
           : "border-l-green-500"
       } ${
-        task.status === "completed" ? "bg-gray-50" : ""
+        task.status === "completed" ? "bg-blue-50" : ""
       } transition-all duration-200 hover:shadow-md`}
     >
       <div className="flex items-start justify-between">
