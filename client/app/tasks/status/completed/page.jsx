@@ -99,7 +99,7 @@ export default function CompletedTasksPage() {
           id="priorityFilter"
           value={priorityFilter}
           onChange={handlePriorityFilterChange}
-          className="form-select mt-2 w-full py-2 px-3 bg-green-100 border border-green-300 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200"
+          className="form-select mt-2 w-full py-2 px-3 bg-pink-100 border border-pink-300 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition duration-200"
         >
           <option value="all">All</option>
           <option value="low">Low</option>
@@ -111,7 +111,7 @@ export default function CompletedTasksPage() {
       <h1 className="text-3xl font-bold mb-6">Completed Tasks</h1>
 
       {error ? (
-        <div className="text-red-600">{error}</div>
+        <div className="text-pink-600">{error}</div>
       ) : (
         <TaskList
           tasks={filteredTasks}
