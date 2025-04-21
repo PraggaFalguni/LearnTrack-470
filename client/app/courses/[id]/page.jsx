@@ -1,22 +1,24 @@
-import { getCourseById } from "@/lib/data"
-import EnrollButton from "@/components/enroll-button"
-import CourseRating from "@/components/course-rating"
-import Link from "next/link"
+import { getCourseById } from "@/lib/data";
+import EnrollButton from "@/components/enroll-button";
+import CourseRating from "@/components/course-rating";
+import Link from "next/link";
 
 export default function CoursePage({ params }) {
-  const courseId = Number.parseInt(params.id)
-  const course = getCourseById(courseId)
+  const courseId = Number.parseInt(params.id);
+  const course = getCourseById(courseId);
 
   if (!course) {
     return (
       <div className="text-center py-12">
         <h1 className="text-3xl font-bold mb-4">Course Not Found</h1>
-        <p className="text-gray-600 mb-6">The course you're looking for doesn't exist or has been removed.</p>
+        <p className="text-gray-600 mb-6">
+          The course you're looking for doesn't exist or has been removed.
+        </p>
         <Link href="/courses" className="btn-primary">
           Browse Courses
         </Link>
       </div>
-    )
+    );
   }
 
   return (
@@ -29,7 +31,9 @@ export default function CoursePage({ params }) {
 
         <div className="flex flex-col gap-4 w-full md:w-auto">
           <div className="card text-center p-4">
-            <p className="text-3xl font-bold text-purple-600">${course.price.toFixed(2)}</p>
+            <p className="text-3xl font-bold text-purple-600">
+              ${course.price.toFixed(2)}
+            </p>
             <EnrollButton courseId={courseId} />
           </div>
         </div>
@@ -51,10 +55,13 @@ export default function CoursePage({ params }) {
         <div>
           <div className="card">
             <h2 className="text-xl font-bold mb-4">Course Rating</h2>
-            <CourseRating rating={course.rating} ratingCount={course.ratingCount} />
+            <CourseRating
+              rating={course.rating}
+              ratingCount={course.ratingCount}
+            />
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

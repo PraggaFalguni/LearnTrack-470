@@ -3,8 +3,6 @@ const {
   createCourse,
   getCourses,
   getCourse,
-  updateCourse,
-  deleteCourse,
   enrollCourse,
   rateCourse,
 } = require("../controllers/course.controller");
@@ -17,11 +15,7 @@ router
   .get(getCourses)
   .post(protect, authorize("instructor", "admin"), createCourse);
 
-router
-  .route("/:id")
-  .get(getCourse)
-  .patch(protect, authorize("instructor", "admin"), updateCourse)
-  .delete(protect, authorize("instructor", "admin"), deleteCourse);
+router.route("/:id").get(getCourse);
 
 router.post("/:id/enroll", protect, enrollCourse);
 router.post("/:id/rate", protect, rateCourse);

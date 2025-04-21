@@ -58,55 +58,6 @@ exports.getCourse = async (req, res) => {
   }
 };
 
-exports.updateCourse = async (req, res) => {
-  try {
-    const course = await Course.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        instructor: req.user.id,
-      },
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
-
-    if (!course) {
-      return res.status(404).json({ message: "Course not found" });
-    }
-
-    res.status(200).json({
-      status: "success",
-      data: {
-        course,
-      },
-    });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
-exports.deleteCourse = async (req, res) => {
-  try {
-    const course = await Course.findOneAndDelete({
-      _id: req.params.id,
-      instructor: req.user.id,
-    });
-
-    if (!course) {
-      return res.status(404).json({ message: "Course not found" });
-    }
-
-    res.status(204).json({
-      status: "success",
-      data: null,
-    });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
 exports.enrollCourse = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);
