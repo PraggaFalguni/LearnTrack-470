@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { format  } from "date-fns";
+import { useState, useRef } from "react";
+import { format } from "date-fns";
 import { CheckCircle, Circle, Trash, Edit, Calendar } from "lucide-react";
 
 export default function TaskItem({ task, onDelete, onUpdate }) {
-  const [isEditing, setIsEditing] = useState(false); //tracks whether the task is in "edit mode"
-  const [editedTask, setEditedTask] = useState(task); //holds a copy of the task
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedTask, setEditedTask] = useState(task);
+  const [isModalOpen, setIsModalOpen] = useState(false);  // Modal state
+  const descriptionRef = useRef(null);
 
   const handleComplete = () => {
     const updatedStatus = task.status === "completed" ? "pending" : "completed";
@@ -42,7 +44,6 @@ export default function TaskItem({ task, onDelete, onUpdate }) {
   };
 
   const handleSave = async () => {
-    // Check if anything actually changed
     const isUnchanged = JSON.stringify(task) === JSON.stringify(editedTask);
 
     if (isUnchanged) {
@@ -74,6 +75,14 @@ export default function TaskItem({ task, onDelete, onUpdate }) {
     }));
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const getPriorityBadgeColor = (priority) => {
     switch (priority) {
       case "high":
@@ -85,6 +94,12 @@ export default function TaskItem({ task, onDelete, onUpdate }) {
       default:
         return "bg-gray-100 text-gray-800";
     }
+  };
+
+  // Function to truncate description for preview
+  const previewDescription = (description) => {
+    if (!description) return "";
+    return description.length > 100 ? `${description.slice(0, 100)}...` : description;
   };
 
   return (
@@ -125,9 +140,22 @@ export default function TaskItem({ task, onDelete, onUpdate }) {
                 <textarea
                   name="description"
                   value={editedTask.description}
-                  onChange={handleChange}
-                  className="form-input w-full"
-                  rows="2"
+                  ref={descriptionRef}
+                  onChange={(e) => {
+                    handleChange(e);
+                    if (descriptionRef.current) {
+                      descriptionRef.current.style.height = "auto";
+                      descriptionRef.current.style.height =
+                        descriptionRef.current.scrollHeight + "px";
+                    }
+                  }}
+                  className="form-input w-full overflow-hidden resize-none break-words"
+                  style={{
+                    minHeight: "3rem",
+                    maxWidth: "100%",
+                    boxSizing: "border-box",
+                    wordBreak: "break-word",
+                  }}
                 />
                 <div className="grid grid-cols-2 gap-4">
                   <select
@@ -165,7 +193,17 @@ export default function TaskItem({ task, onDelete, onUpdate }) {
               <>
                 <h3 className="text-lg font-medium">{task.title}</h3>
                 {task.description && (
-                  <p className="text-gray-600 mt-1">{task.description}</p>
+                  <div className="text-gray-600 mt-1">
+                    {/* Preview of description */}
+                    <p>{previewDescription(task.description)}</p>
+                    {/* Button to show full description */}
+                    <button
+                      onClick={openModal}
+                      className="text-blue-500 mt-2"
+                    >
+                      Show Full Description
+                    </button>
+                  </div>
                 )}
                 <div className="flex items-center space-x-4 mt-2">
                   <span
@@ -213,6 +251,37 @@ export default function TaskItem({ task, onDelete, onUpdate }) {
           </div>
         </div>
       )}
+
+      {/* Modal for showing full description */}
+      {isModalOpen && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="bg-white p-6 rounded-lg max-w-md w-full">
+      <h3 className="text-xl font-semibold">Task Description</h3>
+      <div className="mt-4">
+        <p
+          className="text-gray-700"
+          style={{
+            whiteSpace: "pre-wrap",       // Preserve line breaks
+            wordWrap: "break-word",       // Break long words
+            maxHeight: "400px",           // Limit height
+            overflowY: "auto",            // Add scroll if text is too long
+          }}
+        >
+          {task.description}
+        </p>
+      </div>
+      <div className="flex justify-end mt-4">
+        <button
+          onClick={closeModal}
+          className="bg-blue-500 text-white px-4 py-2 rounded-md"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
