@@ -254,19 +254,19 @@ export default function TaskItem({ task, onDelete, onUpdate }) {
 
       {/* Modal for showing full description */}
       {isModalOpen && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div className="bg-white p-6 rounded-lg max-w-md w-full">
-      <h3 className="text-xl font-semibold">Task Description</h3>
-      <div className="mt-4">
-        <p
-          className="text-gray-700"
-          style={{
-            whiteSpace: "pre-wrap",       // Preserve line breaks
-            wordWrap: "break-word",       // Break long words
-            maxHeight: "400px",           // Limit height
-            overflowY: "auto",            // Add scroll if text is too long
-          }}
-        >
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg max-w-md w-full">
+            <h3 className="text-xl font-semibold">Task Description</h3>
+            <div className="mt-4">
+              <p
+                className="text-gray-700"
+                style={{
+                  whiteSpace: "pre-wrap",       // Preserve line breaks
+                  wordWrap: "break-word",       // Break long words
+                  maxHeight: "400px",           // Limit height
+                  overflowY: "auto",            // Add scroll if text is too long
+                }}
+              >
           {task.description}
         </p>
       </div>

@@ -8,7 +8,11 @@ const courses = [
     description:
       "Learn the fundamentals of web development including HTML, CSS, and JavaScript.",
     price: 49.99,
+<<<<<<< HEAD
     thumbnail: "/p1.jpg",
+=======
+    thumbnail: "public/p1.jpg",
+>>>>>>> c5249d1b6e5a66a89b45021d14f03ee59cc6bef6
     category: "Web Development",
     level: "beginner",
     duration: 20,
