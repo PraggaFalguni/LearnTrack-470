@@ -255,46 +255,42 @@ export default function DashboardPage() {
             Your Enrolled Courses
           </h3>
           {enrolledCourses.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {enrolledCourses.map((course) => (
-                <div
-                  key={course._id}
-                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
-                >
-                  <div className="p-4">
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">
-                      {course.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                      {course.description}
-                    </p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-500">
-                        {course.category}
-                      </span>
-                      <Link
-                        href={`/my-courses/${course._id}`}
-                        className="text-purple-600 hover:text-purple-800 text-sm font-medium"
-                      >
-                        Continue Learning →
-                      </Link>
+            <div className="relative">
+              <div className="overflow-x-auto scrollbar-hide">
+                <div className="flex space-x-6 pb-4 px-1">
+                  {enrolledCourses.map((course) => (
+                    <div
+                      key={course._id}
+                      className="flex-none w-[300px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                    >
+                      <div className="p-4">
+                        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
+                          {course.title}
+                        </h3>
+                        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                          {course.description}
+                        </p>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-500">
+                            {course.category}
+                          </span>
+                          <Link
+                            href={`/my-courses/${course._id}`}
+                            className="text-purple-600 hover:text-purple-800 text-sm font-medium"
+                          >
+                            Continue Learning →
+                          </Link>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           ) : (
-            <div className="text-center py-8">
-              <p className="text-gray-500 mb-4">
-                You haven't enrolled in any courses yet.
-              </p>
-              <Link
-                href="/courses"
-                className="inline-block bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
-              >
-                Browse Available Courses
-              </Link>
-            </div>
+            <p className="text-gray-500">
+              You haven't enrolled in any courses yet.
+            </p>
           )}
         </div>
       </div>

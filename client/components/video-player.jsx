@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 export default function VideoPlayer({ video }) {
   return (
@@ -12,5 +12,5 @@ export default function VideoPlayer({ video }) {
         allowFullScreen
       ></iframe>
     </div>
-  )
+  );
 }

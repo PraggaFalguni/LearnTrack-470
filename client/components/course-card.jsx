@@ -5,21 +5,23 @@ import { Star, Clock, Users } from "lucide-react";
 
 export default function CourseCard({ course }) {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
       <div className="relative">
         <img
           src={course.thumbnail}
           alt={course.title}
-          className="w-full h-48 object-cover"
+          className="w-full h-40 object-cover"
         />
         <div className="absolute top-2 right-2 bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded">
           {course.level}
         </div>
       </div>
 
-      <div className="p-4">
-        <h3 className="text-lg font-bold text-gray-900 mb-2">{course.title}</h3>
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+      <div className="p-4 flex flex-col h-[calc(100%-10rem)]">
+        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
+          {course.title}
+        </h3>
+        <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
           {course.description}
         </p>
 

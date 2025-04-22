@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Star } from "lucide-react"
+import { useState } from "react";
+import { Star } from "lucide-react";
 
-export default function CourseRating({ rating, ratingCount }) {
-  const [userRating, setUserRating] = useState(0)
-  const [hoveredRating, setHoveredRating] = useState(0)
-  const [hasRated, setHasRated] = useState(false)
+export default function CourseRating({ rating = 0, ratingCount = 0 }) {
+  const [userRating, setUserRating] = useState(0);
+  const [hoveredRating, setHoveredRating] = useState(0);
+  const [hasRated, setHasRated] = useState(false);
 
   const handleRating = (value) => {
-    setUserRating(value)
-    setHasRated(true)
+    setUserRating(value);
+    setHasRated(true);
 
     // In a real app, this would submit the rating to the database
-  }
+  };
 
   return (
     <div className="space-y-4">
@@ -22,12 +22,20 @@ export default function CourseRating({ rating, ratingCount }) {
           {[1, 2, 3, 4, 5].map((star) => (
             <Star
               key={star}
-              className={`h-6 w-6 ${star <= rating ? "text-yellow-500 fill-current" : "text-gray-300"}`}
+              className={`h-6 w-6 ${
+                star <= (rating || 0)
+                  ? "text-yellow-500 fill-current"
+                  : "text-gray-300"
+              }`}
             />
           ))}
         </div>
-        <span className="ml-2 text-lg font-medium">{rating.toFixed(1)}</span>
-        <span className="ml-1 text-sm text-gray-500">({ratingCount} ratings)</span>
+        <span className="ml-2 text-lg font-medium">
+          {(rating || 0).toFixed(1)}
+        </span>
+        <span className="ml-1 text-sm text-gray-500">
+          ({ratingCount || 0} ratings)
+        </span>
       </div>
 
       {!hasRated ? (
@@ -44,7 +52,9 @@ export default function CourseRating({ rating, ratingCount }) {
               >
                 <Star
                   className={`h-6 w-6 ${
-                    star <= (hoveredRating || userRating) ? "text-yellow-500 fill-current" : "text-gray-300"
+                    star <= (hoveredRating || userRating)
+                      ? "text-yellow-500 fill-current"
+                      : "text-gray-300"
                   }`}
                 />
               </button>
@@ -52,8 +62,8 @@ export default function CourseRating({ rating, ratingCount }) {
           </div>
         </div>
       ) : (
-        <div className="bg-green-100 text-green-800 p-3 rounded">Thank you for rating this course!</div>
+        <p className="text-sm text-gray-600">Thank you for your rating!</p>
       )}
     </div>
-  )
+  );
 }

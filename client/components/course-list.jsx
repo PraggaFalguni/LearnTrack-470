@@ -25,21 +25,21 @@ export default function CourseList({ courses, onTaskUpdate }) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="h-full">
       {courses.map((course) => (
-        <div key={course._id} className="relative">
+        <div key={course._id} className="relative h-full">
           <Link href={`/courses/${course._id}`}>
             <CourseCard course={course} />
           </Link>
           {(!course.students ||
             !Array.isArray(course.students) ||
             !course.students.includes(user?.id)) && (
-            <button
-              disabled
-              className="absolute bottom-4 right-4 bg-gray-400 text-white px-4 py-2 rounded-lg cursor-not-allowed"
+            <Link
+              href={`/courses/${course._id}`}
+              className="absolute bottom-4 right-4 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
             >
-              Enroll Now
-            </button>
+              View Details
+            </Link>
           )}
         </div>
       ))}

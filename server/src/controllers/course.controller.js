@@ -41,19 +41,37 @@ exports.getCourse = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id)
       .populate("instructor", "name")
-      .populate("students", "name");
+      .populate("students", "name")
+      .populate("lessons")
+      .populate("ratings.user", "name");
 
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
     }
 
+    // Calculate average rating
+    const averageRating =
+      course.ratings.length > 0
+        ? course.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
+          course.ratings.length
+        : 0;
+
+    // Add calculated fields to the course object
+    const courseWithStats = {
+      ...course.toObject(),
+      averageRating,
+      studentCount: course.students.length,
+      lessonCount: course.lessons.length,
+    };
+
     res.status(200).json({
       status: "success",
       data: {
-        course,
+        course: courseWithStats,
       },
     });
   } catch (error) {
+    console.error("Error fetching course:", error);
     res.status(400).json({ message: error.message });
   }
 };
