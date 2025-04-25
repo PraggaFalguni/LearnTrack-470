@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { authAPI } from "@/utils/api";
+import { authAPI, coursesAPI } from "@/utils/api";
 import { getUserById, getPaymentHistory } from "@/lib/data";
 import PaymentHistoryList from "@/components/payment-history-list";
 
@@ -19,6 +19,27 @@ export default function ProfilePage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
+
+  useEffect(() => {
+    const fetchEnrolledCourses = async () => {
+      try {
+        const response = await coursesAPI.getCourses();
+        if (response.data.status === "success") {
+          const enrolled = response.data.data.courses.filter((course) =>
+            course.students?.includes(user?.id)
+          );
+          setEnrolledCourses(enrolled);
+        }
+      } catch (error) {
+        console.error("Error fetching enrolled courses:", error);
+      }
+    };
+
+    if (user) {
+      fetchEnrolledCourses();
+    }
+  }, [user]);
 
   if (!isAuthenticated) {
     router.push("/login");
@@ -172,7 +193,7 @@ export default function ProfilePage() {
                   Enrolled Courses
                 </h3>
                 <p className="text-2xl font-bold">
-                  {user.enrolledCourses?.length || 0}
+                  {enrolledCourses.length}
                 </p>
               </div>
 
