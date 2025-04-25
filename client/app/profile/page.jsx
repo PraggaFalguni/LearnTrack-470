@@ -8,9 +8,11 @@ import { getUserById, getPaymentHistory } from "@/lib/data";
 import PaymentHistoryList from "@/components/payment-history-list";
 
 export default function ProfilePage() {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, setUser } = useAuth();
   const router = useRouter();
   const [name, setName] = useState(user?.name || "");
+  const [email, setEmail] = useState(user?.email || "");
+  const [isEditing, setIsEditing] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -30,14 +32,19 @@ export default function ProfilePage() {
     setSuccess("");
 
     try {
-      const response = await authAPI.updateProfile({ name });
+      const response = await authAPI.updateProfile({ name, email });
       if (response.data.status === "success") {
-        setSuccess("Name updated successfully");
+        setSuccess("Profile updated successfully");
+        setIsEditing(false);
+        const updatedUser = { ...user, name, email };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        setUser(updatedUser);
       } else {
-        setError(response.data.message || "Failed to update name");
+        setError(response.data.message || "Failed to update profile");
       }
     } catch (error) {
-      setError(error.response?.data?.message || "Failed to update name");
+      console.error("Update profile error:", error);
+      setError(error.response?.data?.message || "Failed to update profile");
     } finally {
       setLoading(false);
     }
@@ -87,16 +94,64 @@ export default function ProfilePage() {
             <div className="space-y-4">
               <div>
                 <label className="form-label">Name</label>
-                <div className="form-input bg-gray-50">{user.name}</div>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="form-input"
+                    disabled={loading}
+                  />
+                ) : (
+                  <div className="form-input bg-gray-50">{user.name}</div>
+                )}
               </div>
 
               <div>
                 <label className="form-label">Email</label>
-                <div className="form-input bg-gray-50">{user.email}</div>
+                {isEditing ? (
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="form-input"
+                    disabled={loading}
+                  />
+                ) : (
+                  <div className="form-input bg-gray-50">{user.email}</div>
+                )}
               </div>
 
               <div className="pt-2">
-                <button className="btn-primary">Edit Profile</button>
+                {isEditing ? (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleNameUpdate}
+                      className="btn-primary"
+                      disabled={loading}
+                    >
+                      {loading ? "Saving..." : "Save Changes"}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsEditing(false);
+                        setName(user.name);
+                        setEmail(user.email);
+                      }}
+                      className="btn-secondary"
+                      disabled={loading}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="btn-primary"
+                  >
+                    Edit Profile
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -127,9 +182,7 @@ export default function ProfilePage() {
                 </h3>
                 <p className="text-2xl font-bold text-purple-600">
                   $
-                  {getPaymentHistory(user.id)
-                    .reduce((total, payment) => total + payment.amount, 0)
-                    .toFixed(2)}
+                  {user.paymentHistory?.reduce((total, payment) => total + payment.amount, 0).toFixed(2) || "0.00"}
                 </p>
               </div>
 
