@@ -100,6 +100,15 @@ export const authAPI = {
       localStorage.removeItem("token");
     }
   },
+  updateProfile: async (data) => {
+    try {
+      const response = await api.patch("/auth/profile", data);
+      return response;
+    } catch (error) {
+      console.error("Update profile error:", error);
+      throw error;
+    }
+  }
 };
 
 // Tasks API

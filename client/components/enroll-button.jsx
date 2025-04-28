@@ -1,15 +1,25 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function EnrollButton({ courseId }) {
+  const router = useRouter();
+  const [isEnrolling, setIsEnrolling] = useState(false);
+
+  const handleEnroll = () => {
+    setIsEnrolling(true);
+    // Navigate to the payment page with the course ID in the URL path
+    router.push(`/payment/${courseId}`);
+  };
+
   return (
     <button
-      className="btn-primary w-full mt-2 opacity-50 cursor-not-allowed"
-      disabled={true}
+      onClick={handleEnroll}
+      className="btn-primary w-full mt-2"
+      disabled={isEnrolling}
     >
-      Enroll
+      {isEnrolling ? "Processing..." : "Enroll Now"}
     </button>
   );
 }
