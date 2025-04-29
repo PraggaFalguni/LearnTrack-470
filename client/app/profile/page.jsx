@@ -180,6 +180,11 @@ export default function ProfilePage() {
           <div className="card mt-6">
             <h2 className="text-xl font-bold mb-4">Payment History</h2>
             <PaymentHistoryList payments={getPaymentHistory(user.id)} />
+            <div className="pt-2">
+              <button className="btn-primary" onClick={() => router.push('/payment-history')}>
+                View Payment History
+              </button>
+            </div>
           </div>
         </div>
 
@@ -202,16 +207,8 @@ export default function ProfilePage() {
                   Total Spent
                 </h3>
                 <p className="text-2xl font-bold text-purple-600">
-                  $
-                  {user.paymentHistory?.reduce((total, payment) => total + payment.amount, 0).toFixed(2) || "0.00"}
+                  ${enrolledCourses.reduce((total, course) => total + course.price, 0).toFixed(2)}
                 </p>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-medium text-gray-500">
-                  Member Since
-                </h3>
-                <p className="text-lg font-medium">January 2023</p>
               </div>
             </div>
           </div>
