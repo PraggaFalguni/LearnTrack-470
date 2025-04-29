@@ -274,12 +274,16 @@ export default function DashboardPage() {
                           <span className="text-sm text-gray-500">
                             {course.category}
                           </span>
-                          <Link
+
+                          {/* Continue Learning → button  */}
+                          {/* <Link
                             href={`/my-courses/${course._id}`}
                             className="text-purple-600 hover:text-purple-800 text-sm font-medium"
                           >
                             Continue Learning →
-                          </Link>
+                          </Link> */}
+
+
                         </div>
                       </div>
                     </div>
