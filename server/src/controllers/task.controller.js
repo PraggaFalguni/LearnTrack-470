@@ -164,6 +164,26 @@ exports.getDueSoonTasks = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+// Get overdue tasks
+exports.getOverdueTasks = async (req, res) => {
+  try {
+    const now = new Date();
+
+    const tasks = await Task.find({
+      user: req.user.id,
+      status: "pending", // Only pending tasks are considered overdue
+      dueDate: { $lt: now },
+    }).sort({ dueDate: 1 });
+
+    res.status(200).json({
+      status: "success",
+      results: tasks.length,
+      data: { tasks },
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
 
 
 

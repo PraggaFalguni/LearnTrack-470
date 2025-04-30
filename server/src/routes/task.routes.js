@@ -7,7 +7,8 @@ const {
   deleteTask,
   getPendingTasks,
   getCompletedTasks,
-  getDueSoonTasks
+  getDueSoonTasks,
+  getOverdueTasks
 } = require("../controllers/task.controller");
 const { protect } = require("../middleware/auth.middleware");
 
@@ -24,6 +25,7 @@ router.post("/", createTask);
 router.get("/status/pending", getPendingTasks);
 router.get("/status/completed", getCompletedTasks);
 router.get("/due-soon", getDueSoonTasks);
+router.get("/overdue", getOverdueTasks);
       
 
 // /tasks/:id
