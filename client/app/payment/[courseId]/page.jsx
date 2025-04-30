@@ -1,12 +1,46 @@
-import { getCourseById } from "@/lib/data"
-import PaymentForm from "@/components/payment-form"
-import Link from "next/link"
+"use client";
+
+import { useEffect, useState } from "react";
+import PaymentForm from "@/components/payment-form";
+import Link from "next/link";
+import { coursesAPI } from "@/utils/api";
 
 export default function PaymentPage({ params }) {
-  const courseId = Number.parseInt(params.courseId)
-  const course = getCourseById(courseId)
+  const [course, setCourse] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  if (!course) {
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        const response = await coursesAPI.getCourse(params.courseId);
+        if (response.data && response.data.data && response.data.data.course) {
+          setCourse(response.data.data.course);
+          setError(null);
+        } else {
+          throw new Error("Invalid course data structure");
+        }
+      } catch (err) {
+        console.error("Error fetching course:", err);
+        setError("Failed to load course");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourse();
+  }, [params.courseId]);
+
+  if (loading) {
+    return (
+      <div className="text-center py-12">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
+        <p className="mt-4 text-gray-600">Loading course details...</p>
+      </div>
+    );
+  }
+
+  if (error || !course) {
     return (
       <div className="text-center py-12">
         <h1 className="text-3xl font-bold mb-4">Course Not Found</h1>
@@ -15,7 +49,7 @@ export default function PaymentPage({ params }) {
           Browse Courses
         </Link>
       </div>
-    )
+    );
   }
 
   return (
@@ -55,5 +89,5 @@ export default function PaymentPage({ params }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

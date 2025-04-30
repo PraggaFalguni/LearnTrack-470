@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { CreditCard, Smartphone } from "lucide-react"
+import { coursesAPI } from "@/utils/api"
 
 export default function PaymentForm({ course }) {
   const [paymentMethod, setPaymentMethod] = useState("card")
@@ -14,15 +15,29 @@ export default function PaymentForm({ course }) {
   const [isProcessing, setIsProcessing] = useState(false)
   const router = useRouter()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setIsProcessing(true)
 
-    // In a real app, this would process the payment
-    setTimeout(() => {
+    try {
+      // In a real app, this would process the payment
+      // For now, we'll simulate a successful payment
+      await new Promise(resolve => setTimeout(resolve, 2000))
+
+      // After successful payment, enroll the user in the course
+      const response = await coursesAPI.enrollCourse(course._id)
+      
+      if (response.data.status === "success") {
+        router.push("/payment/success")
+      } else {
+        throw new Error("Failed to enroll in course")
+      }
+    } catch (error) {
+      console.error("Payment or enrollment failed:", error)
+      alert("Payment or enrollment failed. Please try again.")
+    } finally {
       setIsProcessing(false)
-      router.push("/payment/success")
-    }, 2000)
+    }
   }
 
   return (

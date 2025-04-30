@@ -111,12 +111,22 @@ export default function CoursesPage() {
           {categories.map((category) => (
             <div key={category} className="bg-white p-6 rounded-lg shadow">
               <h2 className="text-2xl font-bold mb-4">{category}</h2>
-              <CourseList
-                courses={filteredCourses.filter(
-                  (course) => course.category === category
-                )}
-                onTaskUpdate={handleTaskUpdate}
-              />
+              <div className="relative">
+                <div className="overflow-x-auto scrollbar-hide">
+                  <div className="flex space-x-6 pb-4 px-1">
+                    {filteredCourses
+                      .filter((course) => course.category === category)
+                      .map((course) => (
+                        <div key={course._id} className="flex-none w-[300px]">
+                          <CourseList
+                            courses={[course]}
+                            onTaskUpdate={handleTaskUpdate}
+                          />
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </div>
             </div>
           ))}
         </div>
