@@ -110,40 +110,35 @@ exports.enrollCourse = async (req, res) => {
 
 exports.rateCourse = async (req, res) => {
   try {
-    const { rating, review } = req.body;
     const course = await Course.findById(req.params.id);
-
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    // Check if user is enrolled
-    if (!course.students.includes(req.user.id)) {
-      return res
-        .status(400)
-        .json({ message: "You must be enrolled to rate this course" });
-    }
-
-    // Check if user has already rated
+    // Check if user has already rated this course
     const existingRating = course.ratings.find(
-      (r) => r.user.toString() === req.user.id
+      (rating) => rating.user.toString() === req.user.id
     );
+
     if (existingRating) {
-      return res
-        .status(400)
-        .json({ message: "You have already rated this course" });
+      return res.status(400).json({
+        message: "You have already rated this course",
+      });
     }
 
-    // Add rating
+    // Add new rating
     course.ratings.push({
       user: req.user.id,
-      rating,
-      review,
+      rating: req.body.rating,
+      review: req.body.review,
     });
 
-    // Calculate average rating
+    // Calculate new average rating
     const totalRatings = course.ratings.length;
-    const sumRatings = course.ratings.reduce((sum, r) => sum + r.rating, 0);
+    const sumRatings = course.ratings.reduce(
+      (sum, rating) => sum + rating.rating,
+      0
+    );
     course.averageRating = sumRatings / totalRatings;
 
     await course.save();
@@ -151,8 +146,12 @@ exports.rateCourse = async (req, res) => {
     res.status(200).json({
       status: "success",
       message: "Rating submitted successfully",
+      data: {
+        course,
+      },
     });
   } catch (error) {
+    console.error("Error rating course:", error);
     res.status(400).json({ message: error.message });
   }
 };
