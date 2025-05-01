@@ -12,49 +12,39 @@ export default function CoursePage({ params }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchCourse = async () => {
-      try {
-        console.log("Fetching course with ID:", params.id);
-        const response = await coursesAPI.getCourse(params.id);
-        console.log("API Response:", response);
-
-        if (response.data && response.data.data && response.data.data.course) {
-          const courseData = response.data.data.course;
-          console.log("Course data:", courseData);
-
-          // Ensure we have all required fields with proper fallbacks
-          const processedCourse = {
-            ...courseData,
-            description: courseData.description || "No description available",
-            price: courseData.price || 0,
-            lessons: courseData.lessons || [],
-            duration: courseData.duration || 0,
-            students: courseData.students || [],
-            ratings: courseData.ratings || [],
-            averageRating: courseData.averageRating || 0,
-            instructor: courseData.instructor || { name: "Instructor" },
-            category: courseData.category || "Uncategorized",
-            level: courseData.level || "beginner",
-            thumbnail:
-              courseData.thumbnail || "https://via.placeholder.com/300x200",
-          };
-
-          console.log("Processed course data:", processedCourse);
-          setCourse(processedCourse);
-          setError(null);
-        } else {
-          throw new Error("Invalid course data structure");
-        }
-      } catch (err) {
-        console.error("Error details:", err);
-        console.error("Error response:", err.response);
-        setError("Failed to load course");
-      } finally {
-        setLoading(false);
+  const fetchCourse = async () => {
+    try {
+      const response = await coursesAPI.getCourse(params.id);
+      if (response.data && response.data.data && response.data.data.course) {
+        const courseData = response.data.data.course;
+        const processedCourse = {
+          ...courseData,
+          description: courseData.description || "No description available",
+          price: courseData.price || 0,
+          lessons: courseData.lessons || [],
+          duration: courseData.duration || 0,
+          students: courseData.students || [],
+          ratings: courseData.ratings || [],
+          averageRating: courseData.averageRating || 0,
+          instructor: courseData.instructor || { name: "Instructor" },
+          category: courseData.category || "Uncategorized",
+          level: courseData.level || "beginner",
+          thumbnail: courseData.thumbnail || "https://via.placeholder.com/300x200",
+        };
+        setCourse(processedCourse);
+        setError(null);
+      } else {
+        throw new Error("Invalid course data structure");
       }
-    };
+    } catch (err) {
+      console.error("Error fetching course:", err);
+      setError("Failed to load course");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchCourse();
   }, [params.id]);
 
@@ -72,8 +62,7 @@ export default function CoursePage({ params }) {
       <div className="text-center py-12">
         <h1 className="text-3xl font-bold mb-4">Course Not Found</h1>
         <p className="text-gray-600 mb-6">
-          {error ||
-            "The course you're looking for doesn't exist or has been removed."}
+          {error || "The course you're looking for doesn't exist or has been removed."}
         </p>
         <Link href="/courses" className="btn-primary">
           Browse Courses
@@ -147,32 +136,67 @@ export default function CoursePage({ params }) {
               ))}
             </div>
           </div>
+
+          <div className="card mt-6">
+            <h2 className="text-xl font-bold mb-4">Course Ratings & Reviews</h2>
+            <div className="space-y-6">
+              <div className="flex items-center">
+                <div className="flex items-center">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star
+                      key={star}
+                      className={`h-5 w-5 ${
+                        star <= course.averageRating
+                          ? "text-yellow-500 fill-current"
+                          : "text-gray-300"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <span className="ml-2 text-lg font-medium">
+                  {course.averageRating?.toFixed(1) || "0.0"}
+                </span>
+                <span className="ml-1 text-sm text-gray-500">
+                  ({course.ratings?.length || 0} ratings)
+                </span>
+              </div>
+
+              {course.ratings?.length > 0 ? (
+                <div className="space-y-4">
+                  {course.ratings.map((rating, index) => (
+                    <div key={index} className="border-b pb-4">
+                      <div className="flex items-center mb-2">
+                        <div className="flex items-center">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <Star
+                              key={star}
+                              className={`h-4 w-4 ${
+                                star <= rating.rating
+                                  ? "text-yellow-500 fill-current"
+                                  : "text-gray-300"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <span className="ml-2 text-sm font-medium">
+                          {rating.user?.name || "Anonymous"}
+                        </span>
+                      </div>
+                      {rating.review && (
+                        <p className="text-gray-600 text-sm">{rating.review}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500">No reviews yet.</p>
+              )}
+            </div>
+          </div>
         </div>
 
         <div className="space-y-6">
-          <div className="card">
-            <h2 className="text-xl font-bold mb-4">Course Rating</h2>
-            <div className="flex items-center">
-              <div className="flex items-center">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    className={`h-5 w-5 ${
-                      star <= course.averageRating
-                        ? "text-yellow-500 fill-current"
-                        : "text-gray-300"
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="ml-2 text-lg font-medium">
-                {course.averageRating?.toFixed(1) || "0.0"}
-              </span>
-              <span className="ml-1 text-sm text-gray-500">
-                ({course.ratings?.length || 0} ratings)
-              </span>
-            </div>
-          </div>
+          <CourseRating course={course} onRatingSubmit={fetchCourse} />
 
           <div className="card">
             <h2 className="text-xl font-bold mb-4">Course Requirements</h2>
