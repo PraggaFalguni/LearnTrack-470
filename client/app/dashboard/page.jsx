@@ -203,8 +203,8 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Pending Tasks Section */}
-        <div className="bg-white p-6 rounded-lg shadow mb-8">
+        {/* Tasks by Priority Section - Commented out for future use */}
+        {/* <div className="bg-white p-6 rounded-lg shadow mb-8">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-medium text-gray-900">
               Tasks by Priority
@@ -247,7 +247,7 @@ export default function DashboardPage() {
               ))}
             </ul>
           )}
-        </div>
+        </div> */}
 
         {/* Enrolled Courses */}
         <div className="bg-white p-6 rounded-lg shadow">
