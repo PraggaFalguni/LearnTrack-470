@@ -35,7 +35,7 @@ export default function DashboardPage() {
       if (res.data.status === "success") {
         const allTasks = res.data.data.tasks;
         setTasks(allTasks);
-
+        //calculate stats
         const completed = allTasks.filter(
           (t) => t.status === "completed"
         ).length;
@@ -52,6 +52,7 @@ export default function DashboardPage() {
           tasksDueSoon: dueSoon,
         });
 
+        //notify user
         const pending = allTasks.filter(
           (t) => t.status.toLowerCase() === "pending"
         );

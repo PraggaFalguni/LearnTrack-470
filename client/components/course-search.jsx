@@ -13,7 +13,12 @@ export default function CourseSearch({
 }) {
   const [showFilters, setShowFilters] = useState(false);
 
-  const categories = ["Web Development", "JavaScript", "Design", "Backend"];
+  const categories = [
+    "Web Development",
+    "Data Science",
+    "Mobile Development",
+    "Programming",
+  ];
 
   const handleCategoryToggle = (category) => {
     if (selectedCategories.includes(category)) {

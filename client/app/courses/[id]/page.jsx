@@ -13,6 +13,7 @@ export default function CoursePage({ params }) {
   const [error, setError] = useState(null);
 
   const fetchCourse = async () => {
+    //adapter
     try {
       const response = await coursesAPI.getCourse(params.id);
       if (response.data && response.data.data && response.data.data.course) {
