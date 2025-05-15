@@ -18,14 +18,14 @@ const courses = [
       {
         title: "HTML Basics",
         content: "Introduction to HTML structure and elements",
-        videoUrl: "https://example.com/html-basics",
-        duration: 45,
+        //videoUrl: "https://example.com/html-basics",
+        duration: 9,
       },
       {
         title: "CSS Fundamentals",
         content: "Learn how to style your web pages with CSS",
-        videoUrl: "https://example.com/css-fundamentals",
-        duration: 60,
+        //videoUrl: "https://example.com/css-fundamentals",
+        duration: 11,
       },
     ],
     isPublished: true,
@@ -44,13 +44,13 @@ const courses = [
       {
         title: "React Hooks Deep Dive",
         content: "Understanding and implementing React hooks",
-        videoUrl: "https://example.com/react-hooks",
+        //videoUrl: "https://example.com/react-hooks",
         duration: 50,
       },
       {
         title: "State Management",
         content: "Advanced state management techniques",
-        videoUrl: "https://example.com/state-management",
+        ///videoUrl: "https://example.com/state-management",
         duration: 55,
       },
     ],
@@ -71,13 +71,13 @@ const courses = [
       {
         title: "MERN Stack Overview",
         content: "Introduction to the MERN stack architecture",
-        videoUrl: "https://example.com/mern-overview",
+        //videoUrl: "https://example.com/mern-overview",
         duration: 40,
       },
       {
         title: "Building RESTful APIs",
         content: "Creating robust backend APIs with Express",
-        videoUrl: "https://example.com/restful-apis",
+        //videoUrl: "https://example.com/restful-apis",
         duration: 45,
       },
     ],
@@ -98,13 +98,13 @@ const courses = [
       {
         title: "Swift Fundamentals",
         content: "Master the Swift programming language",
-        videoUrl: "https://example.com/swift-fundamentals",
+        //videoUrl: "https://example.com/swift-fundamentals",
         duration: 50,
       },
       {
         title: "SwiftUI Basics",
         content: "Building user interfaces with SwiftUI",
-        videoUrl: "https://example.com/swiftui-basics",
+        //videoUrl: "https://example.com/swiftui-basics",
         duration: 45,
       },
     ],
@@ -125,13 +125,13 @@ const courses = [
       {
         title: "Kotlin Programming",
         content: "Learn Kotlin programming language",
-        videoUrl: "https://example.com/kotlin-programming",
+        //videoUrl: "https://example.com/kotlin-programming",
         duration: 45,
       },
       {
         title: "Jetpack Compose",
         content: "Modern Android UI development",
-        videoUrl: "https://example.com/jetpack-compose",
+        //videoUrl: "https://example.com/jetpack-compose",
         duration: 50,
       },
     ],
@@ -152,13 +152,13 @@ const courses = [
       {
         title: "Flutter Basics",
         content: "Introduction to Flutter framework",
-        videoUrl: "https://example.com/flutter-basics",
+        //videoUrl: "https://example.com/flutter-basics",
         duration: 40,
       },
       {
         title: "State Management",
         content: "Managing state in Flutter applications",
-        videoUrl: "https://example.com/flutter-state",
+        //videoUrl: "https://example.com/flutter-state",
         duration: 45,
       },
     ],
@@ -178,13 +178,13 @@ const courses = [
       {
         title: "Python Basics",
         content: "Introduction to Python syntax and data types",
-        videoUrl: "https://example.com/python-basics",
+        //videoUrl: "https://example.com/python-basics",
         duration: 50,
       },
       {
         title: "Object-Oriented Programming",
         content: "Learn OOP concepts in Python",
-        videoUrl: "https://example.com/python-oop",
+        //videoUrl: "https://example.com/python-oop",
         duration: 70,
       },
     ],
@@ -204,14 +204,64 @@ const courses = [
       {
         title: "Data Analysis",
         content: "Introduction to data analysis techniques",
-        videoUrl: "https://example.com/data-analysis",
+        //videoUrl: "https://example.com/data-analysis",
         duration: 60,
       },
       {
         title: "Machine Learning Basics",
         content: "Introduction to machine learning algorithms",
-        videoUrl: "https://example.com/ml-basics",
+        //videoUrl: "https://example.com/ml-basics",
         duration: 80,
+      },
+    ],
+    isPublished: true,
+  },
+  {
+    title: "Complete JavaScript Masterclass 2024",
+    description:
+      "Master modern JavaScript from basics to advanced concepts. Learn ES6+, async programming, DOM manipulation, and build real-world projects. Perfect for beginners and intermediate developers looking to level up their JavaScript skills.",
+    price: 49.99,
+    thumbnail:
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&auto=format&fit=crop&q=60",
+    category: "Web Development",
+    level: "intermediate",
+    duration: 25,
+    instructor: "Default Instructor",
+    lessons: [
+      {
+        title: "JavaScript Fundamentals",
+        content:
+          "Learn the core concepts of JavaScript including variables, data types, operators, and control flow statements. Understand how JavaScript works under the hood.",
+        //videoUrl: "https://www.youtube.com/embed/PkZNo7MFNFg",
+        duration: 45,
+      },
+      {
+        title: "ES6+ Features",
+        content:
+          "Explore modern JavaScript features including arrow functions, destructuring, spread/rest operators, and template literals. Learn how to write cleaner, more efficient code.",
+        //videoUrl: "https://www.youtube.com/embed/NCwa_xi0Uuc",
+        duration: 60,
+      },
+      {
+        title: "Asynchronous JavaScript",
+        content:
+          "Master async programming with Promises, async/await, and callbacks. Learn how to handle asynchronous operations effectively in your applications.",
+        //videoUrl: "https://www.youtube.com/embed/vn3tm0quoqE",
+        duration: 75,
+      },
+      {
+        title: "DOM Manipulation",
+        content:
+          "Learn how to interact with the Document Object Model. Create dynamic web pages by manipulating HTML elements, handling events, and updating content.",
+        //videoUrl: "https://www.youtube.com/embed/0ik6X4DJKCc",
+        duration: 50,
+      },
+      {
+        title: "Modern JavaScript Projects",
+        content:
+          "Build real-world projects using modern JavaScript. Create a todo app, weather app, and a simple game to apply all the concepts learned.",
+        //videoUrl: "https://www.youtube.com/embed/3PHXvlpOkf4",
+        duration: 90,
       },
     ],
     isPublished: true,

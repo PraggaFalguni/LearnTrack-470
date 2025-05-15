@@ -41,10 +41,10 @@ export default function CourseCard({ course }) {
         </div>
 
         <div className="flex items-center text-sm text-gray-500 space-x-4">
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <Clock className="h-4 w-4 mr-1" />
             <span>{course.duration} hours</span>
-          </div>
+          </div> */}
           <div className="flex items-center">
             <Users className="h-4 w-4 mr-1" />
             <span>{course.students?.length || 0} students</span>

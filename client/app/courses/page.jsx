@@ -39,6 +39,7 @@ export default function CoursesPage() {
       const matchesPrice =
         course.price >= priceRange[0] && course.price <= priceRange[1];
 
+      //either no categories selected or the course category is in the selected categories
       const matchesCategories =
         selectedCategories.length === 0 ||
         selectedCategories.includes(course.category);
@@ -46,7 +47,7 @@ export default function CoursesPage() {
       return matchesSearch && matchesPrice && matchesCategories;
     });
 
-    setFilteredCourses(filtered);
+    setFilteredCourses(filtered); //update filtered courses
   }, [courses, searchQuery, priceRange, selectedCategories]);
 
   const fetchCourses = async () => {
@@ -106,7 +107,8 @@ export default function CoursesPage() {
           />
         </div>
 
-        {/* Course Lists by Category */}
+        {/* Course Lists by Category and display course*/}
+
         <div className="space-y-8">
           {categories.map((category) => (
             <div key={category} className="bg-white p-6 rounded-lg shadow">
@@ -117,7 +119,10 @@ export default function CoursesPage() {
                     {filteredCourses
                       .filter((course) => course.category === category)
                       .map((course) => (
-                        <div key={course._id} className="flex-none w-[300px]">
+                        <div
+                          key={course._id}
+                          className="relative flex-none w-[300px] pb-10"
+                        >
                           <CourseList
                             courses={[course]}
                             onTaskUpdate={handleTaskUpdate}

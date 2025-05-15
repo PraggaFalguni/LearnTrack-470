@@ -10,10 +10,7 @@ const { protect, authorize } = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
-router
-  .route("/")
-  .get(getCourses)
-  .post(protect, authorize("instructor", "admin"), createCourse);
+router.route("/").get(getCourses);
 
 router.route("/:id").get(getCourse);
 

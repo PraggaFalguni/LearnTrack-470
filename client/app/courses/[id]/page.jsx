@@ -29,7 +29,8 @@ export default function CoursePage({ params }) {
           instructor: courseData.instructor || { name: "Instructor" },
           category: courseData.category || "Uncategorized",
           level: courseData.level || "beginner",
-          thumbnail: courseData.thumbnail || "https://via.placeholder.com/300x200",
+          thumbnail:
+            courseData.thumbnail || "https://via.placeholder.com/300x200",
         };
         setCourse(processedCourse);
         setError(null);
@@ -62,7 +63,8 @@ export default function CoursePage({ params }) {
       <div className="text-center py-12">
         <h1 className="text-3xl font-bold mb-4">Course Not Found</h1>
         <p className="text-gray-600 mb-6">
-          {error || "The course you're looking for doesn't exist or has been removed."}
+          {error ||
+            "The course you're looking for doesn't exist or has been removed."}
         </p>
         <Link href="/courses" className="btn-primary">
           Browse Courses
@@ -70,6 +72,7 @@ export default function CoursePage({ params }) {
       </div>
     );
   }
+  //render course details
 
   return (
     <div className="space-y-8">

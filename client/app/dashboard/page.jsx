@@ -83,7 +83,9 @@ export default function DashboardPage() {
 
   const notifyHighestPriorityTask = (tasks) => {
     // Filter pending tasks
-    const pendingTasks = tasks.filter((task) => task.status.toLowerCase() === "pending");
+    const pendingTasks = tasks.filter(
+      (task) => task.status.toLowerCase() === "pending"
+    );
 
     // Sort by priority (High > Medium > Low) and nearest due date
     const priorityOrder = { High: 1, Medium: 2, Low: 3 };
@@ -100,7 +102,11 @@ export default function DashboardPage() {
     if (sortedTasks.length > 0) {
       const topTask = sortedTasks[0];
       setNotification(
-        `🔔 ${user.name}, You have "${topTask.priority}" priority tasks due soon (${new Date(topTask.dueDate).toLocaleDateString()}).`
+        `🔔 ${user.name}, You have "${
+          topTask.priority
+        }" priority tasks due soon (${new Date(
+          topTask.dueDate
+        ).toLocaleDateString()}).`
       );
     }
   };
@@ -203,52 +209,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Tasks by Priority Section - Commented out for future use */}
-        {/* <div className="bg-white p-6 rounded-lg shadow mb-8">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-medium text-gray-900">
-              Tasks by Priority
-            </h3>
-            <select
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              className="border border-gray-300 rounded-lg p-2"
-            >
-              <option value="pending">Pending</option>
-              <option value="dueSoon">Due Soon</option>
-              <option value="completed">Completed</option>
-            </select>
-          </div>
-          {filteredTasks.length === 0 ? (
-            <p className="text-gray-500">No tasks to display! 🎉</p>
-          ) : (
-            <ul className="space-y-3">
-              {filteredTasks.map((task) => (
-                <li
-                  key={task._id}
-                  className="p-4 bg-white shadow rounded flex justify-between"
-                >
-                  <div>
-                    <span className="font-semibold">{task.title}</span>
-                    <p className="text-gray-500 text-sm">{task.description}</p>
-                  </div>
-                  <span
-                    className={`text-sm font-medium ${
-                      task.priority === "High"
-                        ? "text-red-600"
-                        : task.priority === "Medium"
-                        ? "text-yellow-600"
-                        : "text-green-600"
-                    }`}
-                  >
-                    {task.priority}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div> */}
-
         {/* Enrolled Courses */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="text-lg font-medium text-gray-900 mb-4">
@@ -274,16 +234,6 @@ export default function DashboardPage() {
                           <span className="text-sm text-gray-500">
                             {course.category}
                           </span>
-
-                          {/* Continue Learning → button  */}
-                          {/* <Link
-                            href={`/my-courses/${course._id}`}
-                            className="text-purple-600 hover:text-purple-800 text-sm font-medium"
-                          >
-                            Continue Learning →
-                          </Link> */}
-
-
                         </div>
                       </div>
                     </div>

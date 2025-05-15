@@ -1,24 +1,6 @@
 const Course = require("../models/course.model");
 const User = require("../models/user.model");
 
-exports.createCourse = async (req, res) => {
-  try {
-    const course = await Course.create({
-      ...req.body,
-      instructor: req.user.id,
-    });
-
-    res.status(201).json({
-      status: "success",
-      data: {
-        course,
-      },
-    });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
 exports.getCourses = async (req, res) => {
   try {
     const courses = await Course.find({ isPublished: true })
